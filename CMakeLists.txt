@@ -23,6 +23,11 @@ include_directories("${CASCEXTRACTOR_SOURCE_DIR}/CascLib/src/"
                     "${CASCEXTRACTOR_SOURCE_DIR}/include/"
 )
 
+# Replacement for dirent.h and unistd.h
+if (WIN32)
+  include_directories("${CMAKE_CURRENT_SOURCE_DIR}/dirent/include")
+endif()
+
 add_executable(CASCExtractor main.cpp)
 target_link_libraries(CASCExtractor casc)
 
