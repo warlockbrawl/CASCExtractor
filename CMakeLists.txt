@@ -17,7 +17,16 @@ Did you forgot to execute the following commands?
 endif()
 
 
+if (WIN32)
+	set(CASC_BUILD_SHARED_LIB OFF CACHE BOOL "Build CASC in static mode to link on windows")
+	set(CASC_BUILD_STATIC_LIB ON CACHE BOOL "Build CASC in static mode to link on windows")
+endif()
+
 add_subdirectory(CascLib)
+
+if (WIN32)
+	set_target_properties(casc_static PROPERTIES OUTPUT_NAME CascLibRAD)
+endif()
 
 include_directories("${CASCEXTRACTOR_SOURCE_DIR}/CascLib/src/"
                     "${CASCEXTRACTOR_SOURCE_DIR}/include/"
@@ -29,7 +38,7 @@ if (WIN32)
 endif()
 
 add_executable(CASCExtractor main.cpp)
-target_link_libraries(CASCExtractor casc)
+target_link_libraries(CASCExtractor casc_static)
 
 # Set the RPATH
 if (APPLE)
